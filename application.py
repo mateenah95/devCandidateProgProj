@@ -88,8 +88,7 @@ try:
 
         #reading line by line using for loop, keeping track of index as well
         for index, csv_line in enumerate(csv_data):
-            if index%2 == 0:
-                continue
+
             #variable declarations - FOR CLEANER/EASIER CODE    
             street1 = csv_line[0]
             street2 = csv_line[1]
@@ -135,13 +134,19 @@ try:
             )
             
             #Commented out code to create order
+            #(used shipment instead)
             '''
             order_california = easypost.Order.create(
                 to_address = to_address,
                 from_address = origin_california,
-                shipments = [shipment_california]
+                shipments = [
+                    {
+                        'parcel': parcel
+                    }
+                ]
             )
             '''
+            print('-------------------------')
 
             #declaring lists which will hold the rates retruned
             #from the respective shipment objects
@@ -174,15 +179,17 @@ try:
             
             #print(index_cheapest_california)
             print('California')
-            print(cheapest_california_rate)
-            print(cheapest_carrier_california)
-            print(cheapest_service_california)
+            print('------')
+            print('California Cheapest Rate: {}'.format(cheapest_california_rate))
+            print('California Cheapest Carrier: {}'.format(cheapest_carrier_california))
+            print('California Cheapest Service Level: {}'.format(cheapest_service_california))
             print('------')
             print('Ohio')
+            print('------')
             #print(index_cheapest_ohio)
-            print(cheapest_ohio_rate)
-            print(cheapest_carrier_ohio)
-            print(cheapest_service_ohio)
+            print('Ohio Cheapest Rate: {}'.format(cheapest_ohio_rate))
+            print('Ohio Cheapest Carrier: {}'.format(cheapest_carrier_ohio))
+            print('Ohio Cheapest Service Level: {}'.format(cheapest_service_ohio))
             print('------')
 
             #declaring, calculating and assigning cost difference
@@ -200,14 +207,15 @@ try:
             else:
                 cheaper = 'Either'
 
-            print(cheaper)
+            print('Cheaper: {}'.format(cheaper))
+            print('------')
 
             query = """INSERT INTO rates(address_line1, address_line2, city,
                                          state, zip, country, height, width, length,
                                          weight, cali_carrier, cali_service, 
                                          cali_postage_fee, ohio_carrier, ohio_service,
-                                         ohio_postage_fee) VALUES ({},{},{},{},{},{},
-                                         {},{},{},{},{},{},{},{},{},{})""".format(to_address.street1, 
+                                         ohio_postage_fee) VALUES ('{}','{}','{}','{}',{},'{}',
+                                         {},{},{},{},'{}','{}',{},'{}','{}',{})""".format(to_address.street1, 
                                          to_address.street2, to_address.city, to_address.state, 
                                          to_address.zip, to_address.country, parcel.height, 
                                          parcel.width, parcel.length, parcel.weight, 
@@ -218,28 +226,14 @@ try:
             cursor = connection.cursor()
 
             try:
-                cursor.execute("""INSERT INTO rates(address_line1, address_line2, city,
-                                         state, zip, country, height, width, length,
-                                         weight, cali_carrier, cali_service, 
-                                         cali_postage_fee, ohio_carrier, ohio_service,
-                                         ohio_postage_fee) VALUES ({},{},{},{},{},{},
-                                         {},{},{},{},{},{},{},{},{},{})""".format(to_address.street1, 
-                                         to_address.street2, to_address.city, to_address.state, 
-                                         to_address.zip, to_address.country, parcel.height, 
-                                         parcel.width, parcel.length, parcel.weight, 
-                                         cheapest_carrier_california, cheapest_service_california,
-                                         cheapest_california_rate, cheapest_carrier_ohio, 
-                                         cheapest_service_ohio, cheapest_ohio_rate))
+                cursor.execute(query)
                 connection.commit()
+                print("Database insert successfull for line index: {}".format(index))
             except:
-                print("Database insert failed for index: {}".format(index))
+                print("Database insert failed for line index: {}".format(index))
             
-            
-            print("------------------------")
 
-            print('success {}'.format(index))
-
-            if index > 5:
+            if index == 5:
                 break
 
 #error handling block for data file opening try call
