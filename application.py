@@ -26,7 +26,7 @@ origin_california = easypost.Address.create(
     street2 = '',
     city = 'Cypress',
     state = 'CA',
-    zip = 90630,
+    zip = '90630',
     country = 'US'
 )
 
@@ -35,7 +35,7 @@ origin_ohio = easypost.Address.create(
     street2 = '',
     city = 'Whitehall',
     state = 'OH',
-    zip = 43213,
+    zip = '43213',
     country = 'US'
 )
 
@@ -43,7 +43,7 @@ origin_ohio = easypost.Address.create(
 with open('sample-data.csv', 'r') as csv_file:
     csv_data = csv.reader(csv_file)
 
-    for csv_line in csv_data:
+    for index, csv_line in enumerate(csv_data):
         street1 = csv_line[0]
         street2 = csv_line[1]
         city = csv_line[2]
@@ -83,6 +83,14 @@ with open('sample-data.csv', 'r') as csv_file:
             parcel = parcel
         )
 
+        '''
+        order_california = easypost.Order.create(
+            to_address = to_address,
+            from_address = origin_california,
+            shipments = [shipment_california]
+        )
+        '''
+
         california_rates = []
         ohio_rates = []
 
@@ -92,66 +100,41 @@ with open('sample-data.csv', 'r') as csv_file:
         for ohio_counter in shipment_ohio.rates:
             ohio_rates.append(float(ohio_counter.rate))
 
-        print("Lowest California: {} @ {}".format(min(california_rates), california_rates.index(min(california_rates))))
-        print("Lowest Ohio: {} @ {}".format(min(ohio_rates), ohio_rates.index(min(ohio_rates))))
+        cheapest_california_rate = min(california_rates)
+        index_cheapest_california = california_rates.index(cheapest_california_rate)
+        cheapest_carrier_california = shipment_california.rates[index_cheapest_california].carrier
+        cheapest_service_california = shipment_california.rates[index_cheapest_california].service
 
-        print("------------------------")
-
-        print("Highest California: {} @ {}".format(max(california_rates), california_rates.index(max(california_rates))))
-        print("Highest Ohio: {} @ {}".format(max(ohio_rates), ohio_rates.index(max(ohio_rates))))
-
-        #print("Cheapest California: " + min(california_rates))
-        #print("Cheapest Ohio: " + min(ohio_rates))
-
-        print("------------------------")
-
-        for x in california_rates:
-            print(x)
-
-        print("------------------------")
-
-        for y in ohio_rates:
-            print(y)
+        cheapest_ohio_rate = min(ohio_rates)
+        index_cheapest_ohio = ohio_rates.index(cheapest_ohio_rate)
+        cheapest_carrier_ohio = shipment_ohio.rates[index_cheapest_ohio].carrier
+        cheapest_service_ohio = shipment_ohio.rates[index_cheapest_ohio].service
 
         print("------------------------")
 
         '''
-        print(len(shipment_california.rates))
-        print("------------------------")
-        print(len(shipment_ohio.rates))
-        print('========================')
-        print(shipment_california.rates[9])
-        print("------------------------")
-        print(shipment_ohio.rates[9])
+        print(index_cheapest_california)
+        print(cheapest_california_rate)
+        print(cheapest_carrier_california)
+        print(cheapest_service_california)
+
+        print(index_cheapest_ohio)
+        print(cheapest_ohio_rate)
+        print(cheapest_carrier_ohio)
+        print(cheapest_service_ohio)
+        '''
+
+        if cheapest_carrier_california != cheapest_carrier_ohio:
+            print('Diff Carrier')
         
-        original_stdout = sys.stdout
-
-        out_file = open('output.json', 'w')
-
-        sys.stdout = out_file
-
-        print(shipment)
-
-        sys.stdout = original_stdout
-        out_file.close()
-        '''
-
-        print('success')
-
-        '''
-        print('----order----')
-        order_california = easypost.Order.create(
-            to_address = to_address,
-            from_address=order_california,
-            shipments=[
-                shipment
-            ]
-        )
-
-        print(order_california)
-        print('--endorder--')
-        '''
+        if cheapest_service_california != cheapest_service_ohio:
+            print('Diff Service')
 
 
-        break
+        print("------------------------")
+
+        print('success {}'.format(index))
+
+        if index == 3:
+            break
      
