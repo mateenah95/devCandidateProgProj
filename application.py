@@ -1,17 +1,10 @@
 #importing required modules (install via requirements.txt)
-import csv, easypost, sys, json, psycopg2
+import sys, json, csv, easypost, psycopg2
+from tableManager import tableCheck, createTable, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, connection, cursor
 
 #input data file name declaton & assignment
 #(Change here if needed)
 DATA_FILE = 'sample-data.csv'
-
-#database details declaration & assignment
-#(Change here if needed)
-DB_HOST = 'candidate-test-2.cg4nxczsn7yj.us-east-1.rds.amazonaws.com'
-DB_PORT = '5432'
-DB_USER = 'candidate_test_2'
-DB_PASSWORD = 'sj7ZWaC9'
-DB_NAME = 'candidate_test'
 
 #declaring and assigning API key
 easypost.api_key = 'EZTKb4661e503603421d8dd125dc8e383aa4hY4mwPbdKTnhsCy2CwfUYA'
@@ -19,45 +12,22 @@ easypost.api_key = 'EZTKb4661e503603421d8dd125dc8e383aa4hY4mwPbdKTnhsCy2CwfUYA'
 #surrounding databse connection attempt with try-catch
 #in case the table already exists resulting in error
 try:
-    #attempting to connect to database
-    connection = psycopg2.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_NAME
-    )
-
-    cursor = connection.cursor()
-
-    #Surrounding table creation call with try catch. 
-    try:
-        #executing query to create database table
-        cursor.execute("""CREATE TABLE rates(
-            id SERIAL PRIMARY KEY,
-            address_line1 VARCHAR NOT NULL,
-            address_line2 VARCHAR,
-            city VARCHAR NOT NULL,
-            state VARCHAR,
-            zip INTEGER NOT NULL,
-            country VARCHAR NOT NULL, 
-            height DECIMAL NOT NULL,
-            length DECIMAL NOT NULL,
-            width DECIMAL NOT NULL,
-            weight DECIMAL NOT NULL,
-            CALI_CARRIER VARCHAR NOT NULL,
-            CALI_SERVICE VARCHAR NOT NULL,
-            CALI_POSTAGE_FEE MONEY NOT NULL,
-            OHIO_CARRIER VARCHAR NOT NULL,
-            OHIO_SERVICE VARCHAR NOT NULL,
-            OHIO_POSTAGE_FEE MONEY NOT NULL
-        )""") 
-        connection.commit()
-    except:
+    #checking if table exists. IMPORTED HELPER METHOD: tableCheck()
+    tableExists = tableCheck()
+    
+    if(tableExists == 0 ):
+        print('Rates table not found. Attempting to create...')
+        #Surrounding table creation call with try catch. 
+        try:
+            createTable()
+        except:
+            print('Rates table could not be created. Exiting application...')
+            sys.exit(1)
+    else:
         print("Table already exists. Skipping recreation...")
-#error handling block for database connection attempt call
+   #error handling block for database connection attempt call
 except:
-    print("Database Connection/Table Creation Error. Exiting application...")
+    print("Database Connection Error. Exiting application...")
     sys.exit(1)
 
 #creating CALIFORNIA (origin) address object
@@ -88,7 +58,7 @@ try:
 
         #reading line by line using for loop, keeping track of index as well
         for index, csv_line in enumerate(csv_data):
-
+            
             #variable declarations - FOR CLEANER/EASIER CODE    
             street1 = csv_line[0]
             street2 = csv_line[1]
@@ -146,7 +116,7 @@ try:
                 ]
             )
             '''
-            print('-------------------------')
+            print('--------------------------')
 
             #declaring lists which will hold the rates retruned
             #from the respective shipment objects
@@ -174,19 +144,16 @@ try:
             cheapest_carrier_ohio = shipment_ohio.rates[index_cheapest_ohio].carrier
             cheapest_service_ohio = shipment_ohio.rates[index_cheapest_ohio].service
 
-            print("------------------------")
+            print("--------------------------")
 
-            
-            #print(index_cheapest_california)
-            print('California')
+            print('LINE INDEX: {}'.format(index))
             print('------')
+            print('California')
             print('California Cheapest Rate: {}'.format(cheapest_california_rate))
             print('California Cheapest Carrier: {}'.format(cheapest_carrier_california))
             print('California Cheapest Service Level: {}'.format(cheapest_service_california))
             print('------')
             print('Ohio')
-            print('------')
-            #print(index_cheapest_ohio)
             print('Ohio Cheapest Rate: {}'.format(cheapest_ohio_rate))
             print('Ohio Cheapest Carrier: {}'.format(cheapest_carrier_ohio))
             print('Ohio Cheapest Service Level: {}'.format(cheapest_service_ohio))
@@ -194,20 +161,20 @@ try:
 
             #declaring, calculating and assigning cost difference
             #between shipping from CALIFORNIA and OHIO
-            cost_difference = max(cheapest_california_rate, cheapest_ohio_rate) - min(cheapest_california_rate, cheapest_ohio_rate)
+            saving = max(cheapest_california_rate, cheapest_ohio_rate) - min(cheapest_california_rate, cheapest_ohio_rate)
 
-            print('Cost Difference: {}'.format(cost_difference))
+            print('Cost Difference: {}'.format(saving))
 
             #declaring, calculating and assigning whether it is
             #cheaper from CALIFORNIA or OHIO
             if(cheapest_california_rate < cheapest_ohio_rate):
-                cheaper = 'California'
+                choice = 'California'
             elif(cheapest_california_rate > cheapest_ohio_rate):
-                cheaper = 'Ohio'
+                choice = 'Ohio'
             else:
-                cheaper = 'Either'
+                choice = 'Either'
 
-            print('Cheaper: {}'.format(cheaper))
+            print('Cheaper choice: {}'.format(choice))
             print('------')
 
             query = """INSERT INTO rates(address_line1, address_line2, city,
@@ -223,24 +190,24 @@ try:
                                          cheapest_california_rate, cheapest_carrier_ohio, 
                                          cheapest_service_ohio, cheapest_ohio_rate)
 
-            cursor = connection.cursor()
-
+            #surrounding the insert query with try catch 
             try:
                 cursor.execute(query)
                 connection.commit()
-                print("Database insert successfull for line index: {}".format(index))
+                print("Database insert successfull for line index: [{}] ...".format(index))
+            #error handling block for the insert query
             except:
-                print("Database insert failed for line index: {}".format(index))
-            
+                print("Database insert failed for line index: [{}] ...".format(index))
 
-            if index == 5:
+            if index == 50: 
                 break
-
 #error handling block for data file opening try call
 except:
     print('Error opening/reading data file. Exiting application...')
     sys.exit(1)
 
+#terminating database
+connection.close()
 print('-------------------------------')
 print('PROGRAM TERMINATED SUCCESSFULLY')
 print('-------------------------------')
