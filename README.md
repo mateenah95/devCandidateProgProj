@@ -8,7 +8,8 @@ Please also ensure that the input data file is in the project directory and is n
 The name of the input file can be changed to whatever is desired in 'DATA_FILE' variable in the application.
 
 ## Usage instructions
-Application can be run by simply entering: 'python application.py'
+Application can be run by simply entering: 'python application.py'. 
+By default the CALL LIMIT of the application is set to 5 for testing with a smaller number of calls. However, this can be changed in LINE 7 of the application.py file. 
 The application will print out feedback and details to STDOUT (screen) as it executes.
 The application will also insert the results into the remote database provided as it excutes. Finally, after the processing is complete, it will launch a local webserver at "127.0.0.1:5000" where the results can be viewed via a browser. The tableManager's showSavings() and showOnlySavings() methods can also be used to view the results in addition to writing custom methods with the desired queries. 
 

@@ -3,6 +3,9 @@ import sys, json, csv, easypost, psycopg2
 from tableManager import tableCheck, createTable, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, connection, cursor
 from front_end import app
 
+#declaring and assigning the variable used to limit the number of calls
+LIMIT = 5
+
 #input data file name declaton & assignment
 #(Change here if needed)
 DATA_FILE = 'sample-data.csv'
@@ -59,7 +62,7 @@ try:
 
         #reading line by line using for loop, keeping track of index as well
         for index, csv_line in enumerate(csv_data):
-            break
+            
             #variable declarations - FOR CLEANER/EASIER CODE    
             street1 = csv_line[0]
             street2 = csv_line[1]
@@ -202,7 +205,7 @@ try:
                 print("Database insert failed for line index: [{}] ...".format(index))
 
 
-            if index == 15: 
+            if index == LIMIT: 
                 break
 #error handling block for data file opening try call
 except:
