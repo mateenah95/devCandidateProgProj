@@ -33,7 +33,8 @@ from front_end import app
 
 app.run()
 
-## Time To Complete: 48 hours (approx.)
+## Time To Complete
+48 hours (approx.)
 
 ## Difficulties
 1- Understanding the project requirements - needed several readings and design iterations
