@@ -1,7 +1,7 @@
-##ShippingTree Developer Candidate Project
+#ShippingTree Developer Candidate Project
 
-###Usage instructions
+## Usage instructions
 
-###tableManager
+### tableManager
 
-###application
+### application
