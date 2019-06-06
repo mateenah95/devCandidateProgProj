@@ -202,7 +202,7 @@ try:
                 print("Database insert failed for line index: [{}] ...".format(index))
 
 
-            if index == 3: 
+            if index == 15: 
                 break
 #error handling block for data file opening try call
 except:
