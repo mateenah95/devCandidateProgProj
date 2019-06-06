@@ -33,6 +33,11 @@ from front_end import app
 
 app.run()
 
+## Time To Complete: 48 hours (approx.)
 
+## Difficulties
+1- Understanding the project requirements - needed several readings and design iterations
+2- Understanding working with API - some aspects of the API were not clear and needed further clarification
 
-  
+## Considerations
+Although this is a good way of deciding whether or not to open a new warehouse, if used in isolation, it could give an incorrect or one dimentional view on the subject. This should be used as a guiding indicator among other indicators and the general economic/financial/business context to come to a final decision. Furthermore, the same data could also be used to extract more details that may be beneficial.  
