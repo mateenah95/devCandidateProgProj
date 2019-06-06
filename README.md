@@ -17,4 +17,11 @@ The table manager package/module contains helper methods which handle dealing wi
 It is required for application to run.
 However, the package/module can be used in isolation by importing and using directly from the CLI. 
 It can be used to test table creation, table deletion, insertion as well printing out the savings. 
+----------------------
+Example: 
+import tableManager
+
+tableManager.showSavings()
+
+
   
