@@ -10,18 +10,29 @@ The name of the input file can be changed to whatever is desired in 'DATA_FILE' 
 ## Usage instructions
 Application can be run by simply entering: 'python application.py'
 The application will print out feedback and details to STDOUT (screen) as it executes.
-The application will also insert the results into the remote database provided. 
+The application will also insert the results into the remote database provided as it excutes. Finally, after the processing is complete, it will launch a local webserver at "127.0.0.1:5000" where the results can be viewed via a browser. 
+
 
 ## Table Manager
 The table manager package/module contains helper methods which handle dealing with the database/table.
 It is required for application to run.
-However, the package/module can be used in isolation by importing and using directly from the CLI. It can be used to test table creation, table deletion, insertion as well printing out the savings. 
+However, the package/module can be used in isolation by importing and using directly from a CLI or as a module in other programs. It can be used to test table creation, table deletion, insertion as well displaying the savings. 
 
 Example: 
 
 import tableManager
 
 tableManager.showSavings()
+
+## Front End
+The front end module is required for the flask web app to display the results at the end of the processing/calculations. The app can also be imported and used separately without having to run the calculations. 
+
+Example: 
+
+from front_end import app
+
+app.run()
+
 
 
   
