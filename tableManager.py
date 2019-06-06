@@ -115,14 +115,38 @@ def showSavings():
 #helper method printing only entry id, savings & cheaper option 
 def showOnlySavings():
     cursor.execute("""SELECT id, 
-    CASE 
-        WHEN cali_postage_fee < ohio_postage_fee THEN 'California'
-        WHEN cali_postage_fee > ohio_postage_fee THEN 'Ohio'
-        ELSE 'Either'
-    END,
+    'California',
+    cali_postage_fee,
+    'Ohio',
+    ohio_postage_fee,
+    'Saving',
     CAST(GREATEST(cali_postage_fee, ohio_postage_fee) -  
     LEAST(cali_postage_fee, ohio_postage_fee) AS MONEY)
     FROM rates""")
 
     for result in cursor.fetchall():
         print(result)
+
+def showSavings():
+    cursor.execute("""SELECT id, 
+    'California',
+    cali_postage_fee,
+    'Ohio',
+    ohio_postage_fee,
+    'Saving',
+    CAST(GREATEST(cali_postage_fee, ohio_postage_fee) -  
+    LEAST(cali_postage_fee, ohio_postage_fee) AS MONEY)
+    FROM rates""")
+
+    for result in cursor.fetchall():
+        print(result)
+
+def getData():
+    cursor.execute("""SELECT id, 
+    cali_postage_fee,
+    ohio_postage_fee,
+    CAST(GREATEST(cali_postage_fee, ohio_postage_fee) -  
+    LEAST(cali_postage_fee, ohio_postage_fee) AS MONEY)
+    FROM rates""")
+
+    return cursor.fetchall()

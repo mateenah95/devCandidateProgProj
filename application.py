@@ -1,6 +1,7 @@
 #importing required modules (install via requirements.txt)
 import sys, json, csv, easypost, psycopg2
 from tableManager import tableCheck, createTable, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, connection, cursor
+from front_end import app
 
 #input data file name declaton & assignment
 #(Change here if needed)
@@ -58,7 +59,7 @@ try:
 
         #reading line by line using for loop, keeping track of index as well
         for index, csv_line in enumerate(csv_data):
-            
+            break
             #variable declarations - FOR CLEANER/EASIER CODE    
             street1 = csv_line[0]
             street2 = csv_line[1]
@@ -200,15 +201,18 @@ try:
             except:
                 print("Database insert failed for line index: [{}] ...".format(index))
 
-            if index == 50: 
+
+            if index == 3: 
                 break
 #error handling block for data file opening try call
 except:
     print('Error opening/reading data file. Exiting application...')
     sys.exit(1)
 
+app.run()
 #terminating database
 connection.close()
+
 print('-------------------------------')
 print('PROGRAM TERMINATED SUCCESSFULLY')
 print('-------------------------------')

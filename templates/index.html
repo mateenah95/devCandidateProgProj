@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ShippingTree Dev Project</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body{
+            background: black;
+        }
+        .jumbotron{
+            text-align: center;
+        }
+        .unit{
+            display: inline-block;
+            width: 1fr;
+            background: blue;
+        }
+        #total_saving{
+            color: green;
+            border: 5px solid green;
+        }
+    </style>
+  </head>
+  <body>
+    <br>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">ShippingTree Dev Project</h1>
+            <hr class="my-4">
+            <a class="btn btn-primary btn-lg" href="{{url_for('index')}}" role="button">Refresh</a>
+        </div>
+        <br>
+        <div class="jumbotron">
+            <h2>Savings Table</h2>
+            <br>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">Shipment ID#</th>
+                    <th scope="col">California Rate</th>
+                    <th scope="col">Ohio Rate</th>
+                    <th scope="col">Saving</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in data %}
+                    <tr>
+                        <th scope="row">{{entry[0]}}</th>
+                        <!--TODO: Add coloring-->
+                        <td>{{entry[1]}}</td>
+                        <td>{{entry[2]}}</td>
+                        <td><h4 class="saving">{{entry[3]}}</h4></td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <th scope="row">n/a</th>
+                        <!--TODO: Add coloring-->
+                        <td>n/a</td>
+                        <td>n/a</td>
+                        <td><h2 id="total_saving"></h2></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--Script to calculate and show the total!-->
+    <script>
+        const saving_list = document.querySelectorAll(".saving");
+        var total_saving = 0;
+
+        saving_list.forEach(function(el){
+            saving = el.innerText
+            saving = saving.replace("$","")
+            total_saving = total_saving + parseFloat(saving)
+        });
+
+        document.querySelector("#total_saving").innerText = '$'+total_saving;
+    </script>
+  </body>
+</html>
