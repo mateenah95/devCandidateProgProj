@@ -10,7 +10,7 @@ The name of the input file can be changed to whatever is desired in 'DATA_FILE' 
 ## Usage instructions
 Application can be run by simply entering: 'python application.py'
 The application will print out feedback and details to STDOUT (screen) as it executes.
-The application will also insert the results into the remote database provided as it excutes. Finally, after the processing is complete, it will launch a local webserver at "127.0.0.1:5000" where the results can be viewed via a browser. 
+The application will also insert the results into the remote database provided as it excutes. Finally, after the processing is complete, it will launch a local webserver at "127.0.0.1:5000" where the results can be viewed via a browser. The tableManager's showSavings() and showOnlySavings() methods can also be used to view the results in addition to writing custom methods with the desired queries. 
 
 
 ## Table Manager
