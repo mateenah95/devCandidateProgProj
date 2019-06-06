@@ -177,6 +177,7 @@ try:
             print('Cheaper choice: {}'.format(choice))
             print('------')
 
+            #building insert query
             query = """INSERT INTO rates(address_line1, address_line2, city,
                                          state, zip, country, height, width, length,
                                          weight, cali_carrier, cali_service, 
