@@ -37,6 +37,7 @@ app.run()
 
 ## Difficulties
 1- Understanding the project requirements - needed several readings and design iterations
+
 2- Understanding working with API - some aspects of the API were not clear and needed further clarification
 
 ## Considerations
