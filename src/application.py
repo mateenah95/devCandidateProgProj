@@ -62,7 +62,7 @@ try:
 
         #reading line by line using for loop, keeping track of index as well
         for index, csv_line in enumerate(csv_data):
-            
+            break;
             #variable declarations - FOR CLEANER/EASIER CODE    
             street1 = csv_line[0]
             street2 = csv_line[1]

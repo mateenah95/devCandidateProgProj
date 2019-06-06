@@ -20,6 +20,12 @@
             color: green;
             border: 5px solid green;
         }
+        .choice{
+            color: green;
+            font-size: 1.25em;
+            font-style: italic;
+            font-weight: bold;
+        }
     </style>
   </head>
   <body>
@@ -48,8 +54,8 @@
                     <tr>
                         <th scope="row">{{entry[0]}}</th>
                         <!--TODO: Add coloring-->
-                        <td>{{entry[1]}}</td>
-                        <td>{{entry[2]}}</td>
+                        <td class="cali_rate">{{entry[1]}}</td>
+                        <td class="ohio_rate">{{entry[2]}}</td>
                         <td><h4 class="saving">{{entry[3]}}</h4></td>
                     </tr>
                     {% endfor %}
@@ -66,16 +72,57 @@
     </div>
     <!--Script to calculate and show the total!-->
     <script>
-        const saving_list = document.querySelectorAll(".saving");
-        var total_saving = 0;
 
-        saving_list.forEach(function(el){
-            saving = el.innerText
-            saving = saving.replace("$","")
-            total_saving = total_saving + parseFloat(saving)
-        });
+        //Total Calculating helper function
+        function calculateTotal(){
+            const saving_list = document.querySelectorAll(".saving");
+            var total_saving = 0;
 
-        document.querySelector("#total_saving").innerText = '$'+total_saving.toPrecision(10)+'/-';
+            saving_list.forEach(function(el){
+                var saving = el.innerText
+                saving = saving.replace("$","")
+                total_saving = total_saving + parseFloat(saving)
+            });
+
+            document.querySelector("#total_saving").innerText = '$'+total_saving.toPrecision(10)+'/-';
+        }
+
+        //Helper function which chooses the cheaper choice for each entry
+        function choice(){
+            var cali_rates = document.querySelectorAll('.cali_rate');
+            var ohio_rates = document.querySelectorAll('.ohio_rate');
+
+            console.log(cali_rates.length);
+            console.log(ohio_rates.length);
+
+            if(cali_rates.length != ohio_rates.length){
+                return;
+            }
+
+            for(var i=0;i<cali_rates.length;i++){
+                var cali_rate = cali_rates[i].innerText;
+                cali_rate = cali_rate.replace("$","");
+                cali_rate = parseFloat(cali_rate);
+
+                var ohio_rate = ohio_rates[i].innerText;
+                ohio_rate = ohio_rate.replace("$","");
+                ohio_rate = parseFloat(ohio_rate);
+
+                if(cali_rate<ohio_rate){
+                    cali_rates[i].classList.add("choice");
+                }
+                else if(cali_rate>ohio_rate){
+                    ohio_rates[i].classList.add("choice");
+                }
+                else{
+                    cali_rates[i].classList.add("choice");
+                    ohio_rates[i].classList.add("choice");
+                }
+            }
+        }
+
+        calculateTotal();
+        choice();
     </script>
   </body>
 </html>
