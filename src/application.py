@@ -211,7 +211,8 @@ try:
 except:
     print('Error opening/reading data file. Exiting application...')
     sys.exit(1)
-
+    
+#running flask app/web server
 app.run()
 #terminating database
 connection.close()
