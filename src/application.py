@@ -1,6 +1,7 @@
 #importing required modules (install via requirements.txt)
 import sys, json, csv, easypost, psycopg2
-from tableManager import tableCheck, createTable, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, connection, cursor
+from tableManager import tableCheck, createTable, buildInsertQuery, printDetailsToScreen
+from tableManager import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, connection, cursor
 from front_end import app
 
 #declaring and assigning the variable used to limit the number of calls
@@ -106,21 +107,6 @@ try:
                 from_address = origin_ohio,
                 parcel = parcel
             )
-            
-            #Commented out code to create order
-            #(used shipment instead)
-            '''
-            order_california = easypost.Order.create(
-                to_address = to_address,
-                from_address = origin_california,
-                shipments = [
-                    {
-                        'parcel': parcel
-                    }
-                ]
-            )
-            '''
-            print('--------------------------')
 
             #declaring lists which will hold the rates retruned
             #from the respective shipment objects
@@ -148,27 +134,10 @@ try:
             cheapest_carrier_ohio = shipment_ohio.rates[index_cheapest_ohio].carrier
             cheapest_service_ohio = shipment_ohio.rates[index_cheapest_ohio].service
 
-            print("--------------------------")
-
-            print('LINE INDEX: {}'.format(index))
-            print('------')
-            print('California')
-            print('California Cheapest Rate: {}'.format(cheapest_california_rate))
-            print('California Cheapest Carrier: {}'.format(cheapest_carrier_california))
-            print('California Cheapest Service Level: {}'.format(cheapest_service_california))
-            print('------')
-            print('Ohio')
-            print('Ohio Cheapest Rate: {}'.format(cheapest_ohio_rate))
-            print('Ohio Cheapest Carrier: {}'.format(cheapest_carrier_ohio))
-            print('Ohio Cheapest Service Level: {}'.format(cheapest_service_ohio))
-            print('------')
-
             #declaring, calculating and assigning cost difference
             #between shipping from CALIFORNIA and OHIO
             saving = max(cheapest_california_rate, cheapest_ohio_rate) - min(cheapest_california_rate, cheapest_ohio_rate)
-
-            print('Cost Difference: {}'.format(saving))
-
+            
             #declaring, calculating and assigning whether it is
             #cheaper from CALIFORNIA or OHIO
             if(cheapest_california_rate < cheapest_ohio_rate):
@@ -177,24 +146,19 @@ try:
                 choice = 'Ohio'
             else:
                 choice = 'Either'
-
-            print('Cheaper choice: {}'.format(choice))
-            print('------')
-
-            #building insert query
-            query = """INSERT INTO rates(address_line1, address_line2, city,
-                                         state, zip, country, height, width, length,
-                                         weight, cali_carrier, cali_service, 
-                                         cali_postage_fee, ohio_carrier, ohio_service,
-                                         ohio_postage_fee) VALUES ('{}','{}','{}','{}',{},'{}',
-                                         {},{},{},{},'{}','{}',{},'{}','{}',{})""".format(to_address.street1, 
+            
+            #calling function to print details to screen
+            printDetailsToScreen(index, cheapest_california_rate, cheapest_carrier_california, cheapest_service_california, cheapest_ohio_rate, cheapest_carrier_ohio, cheapest_service_ohio, saving, choice)
+            
+            #calling helper method from table manager to build insert query
+            query = buildInsertQuery(to_address.street1, 
                                          to_address.street2, to_address.city, to_address.state, 
                                          to_address.zip, to_address.country, parcel.height, 
                                          parcel.width, parcel.length, parcel.weight, 
                                          cheapest_carrier_california, cheapest_service_california,
                                          cheapest_california_rate, cheapest_carrier_ohio, 
                                          cheapest_service_ohio, cheapest_ohio_rate)
-
+            
             #surrounding the insert query with try catch 
             try:
                 cursor.execute(query)
@@ -220,5 +184,6 @@ connection.close()
 print('-------------------------------')
 print('PROGRAM TERMINATED SUCCESSFULLY')
 print('-------------------------------')
+
 
      

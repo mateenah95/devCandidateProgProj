@@ -91,6 +91,25 @@ def insertTestEntry():
     connection.commit()
     print('Entry inserted into rates table successfully...')
 
+def buildInsertQuery(street1, street2, city, state, zip, country, height, width, length, weight,
+                    cheapest_carrier_california, cheapest_service_california, cheapest_california_rate,
+                    cheapest_carrier_ohio, cheapest_service_ohio, cheapest_ohio_rate):
+    #building insert query
+    query = """INSERT INTO rates(address_line1, address_line2, city,
+                                    state, zip, country, height, width, length,
+                                    weight, cali_carrier, cali_service, 
+                                    cali_postage_fee, ohio_carrier, ohio_service,
+                                    ohio_postage_fee) VALUES ('{}','{}','{}','{}',{},'{}',
+                                    {},{},{},{},'{}','{}',{},'{}','{}',{})""".format(street1, 
+                                    street2, city, state, 
+                                    zip, country, height, 
+                                    width, length, weight, 
+                                    cheapest_carrier_california, cheapest_service_california,
+                                    cheapest_california_rate, cheapest_carrier_ohio, 
+                                    cheapest_service_ohio, cheapest_ohio_rate)
+    
+    return query
+
 #helper method to show all rates table entries
 def showEntries():
     cursor.execute("""SELECT * FROM rates""")
@@ -137,3 +156,23 @@ def getData():
     FROM rates""")
 
     return cursor.fetchall()
+
+#helper method for printing line details to console/stdout
+def printDetailsToScreen(index, cheapest_california_rate, cheapest_carrier_california, cheapest_service_california, cheapest_ohio_rate, cheapest_carrier_ohio, cheapest_service_ohio, saving, choice):
+    print('--------------------------')
+    print("--------------------------")
+    print('LINE INDEX: {}'.format(index))
+    print('------')
+    print('California')
+    print('California Cheapest Rate: {}'.format(cheapest_california_rate))
+    print('California Cheapest Carrier: {}'.format(cheapest_carrier_california))
+    print('California Cheapest Service Level: {}'.format(cheapest_service_california))
+    print('------')
+    print('Ohio')
+    print('Ohio Cheapest Rate: {}'.format(cheapest_ohio_rate))
+    print('Ohio Cheapest Carrier: {}'.format(cheapest_carrier_ohio))
+    print('Ohio Cheapest Service Level: {}'.format(cheapest_service_ohio))
+    print('------')
+    print('Cost Difference: {}'.format(saving))
+    print('Cheaper choice: {}'.format(choice))
+    print('------')
