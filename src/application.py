@@ -148,7 +148,9 @@ try:
                 choice = 'Either'
             
             #calling function to print details to screen
-            printDetailsToScreen(index, cheapest_california_rate, cheapest_carrier_california, cheapest_service_california, cheapest_ohio_rate, cheapest_carrier_ohio, cheapest_service_ohio, saving, choice)
+            printDetailsToScreen(index, cheapest_california_rate, cheapest_carrier_california, 
+                                 cheapest_service_california, cheapest_ohio_rate, cheapest_carrier_ohio, 
+                                 cheapest_service_ohio, saving, choice)
             
             #calling helper method from table manager to build insert query
             query = buildInsertQuery(to_address.street1, 
