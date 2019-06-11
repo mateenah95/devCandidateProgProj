@@ -23,9 +23,13 @@ The application will also insert the results into the remote database provided a
 
 ## Considerations
 1- Keeping API calls & database calls to a minimum to improve performance/processing time. 
+
 2- Keeping the user informed as to what is happening at each stage of the execution.
+
 3- Checking for runtime errors like fileIO and database/API connections errors and handling them.
+
 4- Giving the user useful error messages. 
+
 5- Giving the user feedback for cheaper option, rate, carrier and service for each line/entry as program executes. 
 
 ## Business Context
