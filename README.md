@@ -8,10 +8,16 @@ Please also ensure that the input data file is in the project directory and is n
 The name of the input file can be changed to whatever is desired in 'DATA_FILE' variable in the application.
 
 ## Usage instructions
-Application can be run by simply entering: 'python application.py'. 
+Once you have the requirements installed, the application can be run by simply entering: 'python application.py'. 
+
 By default the CALL LIMIT of the application is set to 5 for testing with a smaller number of calls. However, this can be changed in LINE 7 of the application.py file. 
+
 The application will print out feedback and details to STDOUT (screen) as it executes.
-The application will also insert the results into the remote database provided as it excutes. Finally, after the processing is complete, it will launch a local flask webserver at "127.0.0.1:5000" where the results can be viewed via a browser. The tableManager's showSavings() and showOnlySavings() methods can leveraged to view the results. (Note: On each execution the program will add the results from the file to the database so using the same data/data file more than once might duplicate some entries in the database).
+The application will also insert the results into the remote database provided as it excutes.
+
+Finally, after the processing is complete, it will launch a local flask webserver at "127.0.0.1:5000" where the results can be viewed via a browser. On the webpage, for each shipment, the webpage will show how much can be saved for that shipment between the two warehouses, the cheaper rate as well as the cheaper option. Furthermore, it will also show how much the total savings from all shipments processed is. [Please check the sampleOutput.jpg to see sample output.]
+
+The tableManager's showSavings() and showOnlySavings() methods can leveraged to view the results. (Note: On each execution the program will add the results from the file to the database so using the same data/data file more than once might duplicate some entries in the database).
 
 ## Time To Complete
 14-15 hours work (approx.)
