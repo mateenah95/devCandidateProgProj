@@ -17,6 +17,7 @@ easypost.api_key = 'EZTKb4661e503603421d8dd125dc8e383aa4hY4mwPbdKTnhsCy2CwfUYA'
 #surrounding databse connection attempt with try-catch
 #in case the table already exists resulting in error
 try:
+    print('Attempting to connect to database...')
     #checking if table exists. IMPORTED HELPER METHOD: tableCheck()
     tableExists = tableCheck()
     
@@ -30,7 +31,7 @@ try:
             sys.exit(1)
     else:
         print("Table already exists. Skipping recreation...")
-   #error handling block for database connection attempt call
+#error handling block for database connection attempt call
 except:
     print("Database Connection Error. Exiting application...")
     sys.exit(1)

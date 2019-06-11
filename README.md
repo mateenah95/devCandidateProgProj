@@ -11,7 +11,27 @@ The name of the input file can be changed to whatever is desired in 'DATA_FILE' 
 Application can be run by simply entering: 'python application.py'. 
 By default the CALL LIMIT of the application is set to 5 for testing with a smaller number of calls. However, this can be changed in LINE 7 of the application.py file. 
 The application will print out feedback and details to STDOUT (screen) as it executes.
-The application will also insert the results into the remote database provided as it excutes. Finally, after the processing is complete, it will launch a local webserver at "127.0.0.1:5000" where the results can be viewed via a browser. The tableManager's showSavings() and showOnlySavings() methods can also be used to view the results in addition to writing custom methods with the desired queries. 
+The application will also insert the results into the remote database provided as it excutes. Finally, after the processing is complete, it will launch a local flask webserver at "127.0.0.1:5000" where the results can be viewed via a browser. The tableManager's showSavings() and showOnlySavings() methods can leveraged to view the results. (Note: On each execution the program will add the results from the file to the database so using the same data/data file more than once might duplicate some entries in the database).
+
+## Time To Complete
+14-15 hours work (approx.)
+
+## Difficulties
+1- Understanding working with API - some aspects of the API were not clear and needed further clarification.
+
+2- Trying to see/figure out how the program could add more value to the business context. What additional calculations/processing could be done to generate useful economic/business information form the data. 
+
+## Considerations
+1- Keeping API calls & database calls to a minimum to improve performance/processing time. 
+2- Keeping the user informed as to what is happening at each stage of the execution.
+3- Checking for runtime errors like fileIO and database/API connections errors and handling them.
+4- Giving the user useful error messages. 
+5- Giving the user feedback for cheaper option, rate, carrier and service for each line/entry as program executes. 
+
+## Business Context
+Although this is a good way of deciding whether or not to open a new warehouse, if used in isolation, it could give an incorrect or one dimentional view on the subject. This should be used as a guiding indicator among other indicators and the general economic/financial/business context to come to a final decision. For example, will the savings from the additional warehouse be enough to justify the additional utility, labor and maintanance costs? 
+
+Furthermore, the same data could also be used to extract more details that may be beneficial. For example, we could use program with sample data to see how many shipments (and by extention time) it would take to recoup the original investment cost towards the additional warehouse. 
 
 
 ## Table Manager
@@ -34,14 +54,3 @@ from front_end import app
 
 app.run()
 
-## Time To Complete
-48 hours (approx.) from receiving the project.
-10 hours work (approx.)
-
-## Difficulties
-1- Understanding the project requirements - needed several readings and design iterations
-
-2- Understanding working with API - some aspects of the API were not clear and needed further clarification
-
-## Considerations
-Although this is a good way of deciding whether or not to open a new warehouse, if used in isolation, it could give an incorrect or one dimentional view on the subject. This should be used as a guiding indicator among other indicators and the general economic/financial/business context to come to a final decision. Furthermore, the same data could also be used to extract more details that may be beneficial.  
