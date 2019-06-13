@@ -10,7 +10,7 @@ Please also ensure that the input data file is in the project directory and is n
 ## Usage instructions
 Once you have the requirements installed, the application can be run by simply entering: 'python application.py'. 
 
-By default the CALL LIMIT of the application is set to 5 for testing with a smaller number of calls. However, this can be changed by changing the 'LIMIT' variable in LINE 7 of the application.py file. 
+By default the CALL LIMIT of the application is set to 5 for testing with a smaller number of calls. However, this can be changed by changing the 'LIMIT' variable in the application.py file. 
 
 The application will print out feedback and details to STDOUT (screen) as it executes.
 The application will also insert the results into the remote database provided as it excutes.
