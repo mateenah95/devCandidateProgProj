@@ -1,5 +1,6 @@
+#importing required packages
 from flask import Flask, render_template
-from tableManager import getData
+from table_manager import getData
 
 #creating flask application
 app = Flask(__name__)

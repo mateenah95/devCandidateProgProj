@@ -1,8 +1,15 @@
-#importing required modules (install via requirements.txt)
-import sys, json, csv, easypost, psycopg2
-from tableManager import tableCheck, createTable, buildInsertQuery, printDetailsToScreen
-from tableManager import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, connection, cursor
+#importing required packages (sticking to PEP8 guidlines by separating imports on new lines)
+import easypost
+import psycopg2
+#importing core python packages 
+import sys, json, csv   
+#importing helper methods and constants from tableManager module 
+from table_manager import tableCheck, createTable, buildInsertQuery, printDetailsToScreen
+from table_manager import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, connection, cursor
+#importing flask web app for post processing front_end module
 from front_end import app
+
+
 
 #declaring and assigning the variable used to limit the number of calls
 LIMIT = 5
