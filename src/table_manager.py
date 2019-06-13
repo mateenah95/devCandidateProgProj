@@ -91,6 +91,7 @@ def insertTestEntry():
     connection.commit()
     print('Entry inserted into rates table successfully...')
 
+#helper method for building a query to insert into database
 def buildInsertQuery(street1, street2, city, state, zip, country, height, width, length, weight,
                     cheapest_carrier_california, cheapest_service_california, cheapest_california_rate,
                     cheapest_carrier_ohio, cheapest_service_ohio, cheapest_ohio_rate):
