@@ -38,6 +38,8 @@ The tableManager's showSavings() and showOnlySavings() methods can leveraged to 
 
 5- Giving the user feedback for cheaper option, rate, carrier and service for each line/entry as program executes. 
 
+6- Sanitizing the data - LINE# 124 & LINE345 (REMOVING SPECIAL CHARACTERS)
+
 ## Business Context
 Although this is a good way of deciding whether or not to open a new warehouse, if used in isolation, it could give an incorrect or one dimentional view on the subject. This should be used as a guiding indicator among other indicators and the general economic/financial/business context to come to a final decision. For example, will the savings from the additional warehouse be enough to justify the additional utility, labor and maintanance costs? 
 
@@ -61,6 +63,9 @@ The front end module is required for the flask web app to display the results at
 Example: 
 
 from front_end import app
-
 app.run()
 
+OR 
+
+import front_end
+front_end.app.run()

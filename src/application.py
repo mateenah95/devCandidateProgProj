@@ -11,8 +11,9 @@ from front_end import app
 
 
 
-#declaring and assigning the variable used to limit the number of calls
-LIMIT = 5
+#declaring and assigning the variables used to limit the number of calls
+START = 0
+LIMIT = 1000
 
 #input data file name declaton & assignment
 #(Change here if needed)
@@ -71,7 +72,11 @@ try:
 
         #reading line by line using for loop, keeping track of index as well
         for index, csv_line in enumerate(csv_data):
-            
+           
+            #FOR DEV/TESTING PURPOSES
+            if index <= (START-1):
+                continue
+                
             #variable declarations - FOR CLEANER/EASIER CODE    
             street1 = csv_line[0]
             street2 = csv_line[1]
@@ -129,6 +134,14 @@ try:
 
             for ohio_counter in shipment_ohio.rates:
                 ohio_rates.append(float(ohio_counter.rate))
+            
+            if len(california_rates) == 0:
+                print('Error with index: [{}]. Skipping entry...'.format(index))
+                continue
+
+            if len(ohio_rates) == 0:
+                print('Error with index: [{}]. Skipping entry...'.format(index))
+                continue
 
             #finding the minimum rates and their respective
             #carrier and service type for CALIFORNIA and OHIO
@@ -175,15 +188,17 @@ try:
                 connection.commit()
                 print("Database insert successfull for line index: [{}] ...".format(index))
             #error handling block for the insert query
-            except:
+            except Exception as e:
+                print(e)
                 print("Database insert failed for line index: [{}] ...".format(index))
 
 
-            if index == LIMIT: 
+            if index == (LIMIT-1): 
                 break
 #error handling block for data file opening try call
-except:
-    print('Error opening/reading data file. Exiting application...')
+except Exception as e:
+    print(e)
+    #print('Error opening/reading data file. Exiting application...')
     sys.exit(1)
     
 #running flask app/web server

@@ -41,7 +41,7 @@ def createTable():
         address_line2 VARCHAR,
         city VARCHAR NOT NULL,
         state VARCHAR,
-        zip INTEGER NOT NULL,
+        zip VARCHAR NOT NULL,
         country VARCHAR NOT NULL, 
         height DECIMAL NOT NULL,
         length DECIMAL NOT NULL,
@@ -78,14 +78,14 @@ def insertTestEntry():
                                             state, zip, country, height, width, length,
                                             weight, cali_carrier, cali_service, 
                                             cali_postage_fee, ohio_carrier, ohio_service,
-                                            ohio_postage_fee, choice, saving) VALUES ('{}','{}','{}','{}',{},'{}',
-                                            {},{},{},{},'{}','{}',{},'{}','{}',{},'{}',{})""".format('7 Walmer Road', 
+                                            ohio_postage_fee) VALUES ('{}','{}','{}','{}','{}','{}',
+                                            {},{},{},{},'{}','{}',{},'{}','{}',{})""".format('7 Walmer Road', 
                                             'Unit 304', 'Toronto', 'ON', 
                                             120118, 'Canada', 4.3, 
                                             3.2, 1.4, 4.2, 
                                             'Fedex', 'Ground',
                                             x, 'DHL', 
-                                            'Express', y, z, d)
+                                            'Express', y)
 
     cursor.execute(query)
     connection.commit()
@@ -95,12 +95,13 @@ def insertTestEntry():
 def buildInsertQuery(street1, street2, city, state, zip, country, height, width, length, weight,
                     cheapest_carrier_california, cheapest_service_california, cheapest_california_rate,
                     cheapest_carrier_ohio, cheapest_service_ohio, cheapest_ohio_rate):
+    
     #building insert query
     query = """INSERT INTO rates(address_line1, address_line2, city,
                                     state, zip, country, height, width, length,
                                     weight, cali_carrier, cali_service, 
                                     cali_postage_fee, ohio_carrier, ohio_service,
-                                    ohio_postage_fee) VALUES ('{}','{}','{}','{}',{},'{}',
+                                    ohio_postage_fee) VALUES ('{}','{}','{}','{}','{}','{}',
                                     {},{},{},{},'{}','{}',{},'{}','{}',{})""".format(street1, 
                                     street2, city, state, 
                                     zip, country, height, 

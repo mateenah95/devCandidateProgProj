@@ -4,7 +4,7 @@ CREATE TABLE rates(
         address_line2 VARCHAR,
         city VARCHAR NOT NULL,
         state VARCHAR,
-        zip INTEGER NOT NULL,
+        zip VARCHAR NOT NULL,
         country VARCHAR NOT NULL, 
         height DECIMAL NOT NULL,
         length DECIMAL NOT NULL,
